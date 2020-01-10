@@ -1,6 +1,6 @@
 <template>
-   <div class="commentFooter">
-    <div class="addcomment" v-show='!isFocus'>
+  <div class="commentFooter">
+       <div class="addcomment" v-show='!isFocus'>
       <input type="text" placeholder="写跟帖" @focus="handlerFocus" />
       <span class="comment" @click="$router.push({path:`/comment/${post.id}`})">
         <i class="iconfont iconpinglun-"></i>
@@ -20,61 +20,62 @@
 </template>
 
 <script>
-import {starArticle,replyComment} from '@/apis/article.js'
+import {starArticle} from '@/apis/article.js'
+import {replyComment} from '@/apis/article.js'
 export default {
-     props :['post','obj'],
-     data() {
-         return {
-             isFocus : false
-         }
-     },
-    //  监听obj值得变化，值变则弹出输入框
+       props : ['post','obj'],
+       data () {
+           return {
+               isFocus : false
+           }
+       },
+    //    监听obj值得变化,变了则弹出输入框
     watch :{
-        obj() {
-            console.log('aaaa')
+        obj () {
+            console.log('dsdad')
             if(this.obj){
                 this.isFocus = true
             }
         }
     },
     methods :{
-        // 取消评论
+        //  取消评论
         cancelReply(){
-            this.isFocus = false
+            this.isFocus =false
             this.$emit('reset')
         },
         // 发表评论
         async sendComment(){
-            let data = {
+            let data ={
                 content : this.$refs.commtext.value
             }
             // 回复评论
-            if(this.obj){
-                data.parent_id = this.obj.id
-            }
-            let res = await replyComment(this.post.id,data)
-            console.log(res)
-            if(res.data.message === '评论发布成功'){
-                // 让输入框消失
-                this.isFocus = false
-                // 重置输入框得内容
-                this.$refs.commtext.value = ''
-                // 让评论列表数据刷新--让父组件进行数据得更新
-                this.$emit('refresh')
-            }
+              if(this.obj){
+        data.parent_id = this.obj.id
+      }
+      let res = await replyComment(this.post.id,data)
+      console.log(res)
+      if(res.data.message === '评论发布成功'){
+        // 让输入框消失
+        this.isFocus = false
+        // 重置输入框的内容
+        this.$refs.commtext.value = ''
+        // 让评论列表数据刷新--让父组件进行数据的刷新
+        this.$emit('refresh')
+      }
         },
-        //  获取焦点时触发
-        handlerFocus () {
-            this.isFocus = !this.isFocus
-            setTimeout(() =>{
-                this.$ref.commtext.focus()
-            },100);
-        },
-        async starThisArticle(){
-            let res = await starArticle(this.post.id)
-            this.post.has_star = !this.post.has_star
-            this.$toast.success(res.data.message)
-        }
+        //   获取焦点时触发
+    handlerFocus () {
+      this.isFocus = !this.isFocus
+      setTimeout(() => {
+        this.$refs.commtext.focus()
+      }, 100);
+    },
+    async starThisArticle(){
+       let res = await starArticle(this.post.id)
+       this.post.has_star = !this.post.has_star
+       this.$toast.success(res.data.message)
+    }
     }
 }
 </script>

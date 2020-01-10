@@ -1,24 +1,24 @@
 <template>
   <div class="commentItem">
-    <!-- 组件递归 -->
-    <commentItem v-if="parent.parent" :parent="parent.parent"></commentItem>
-    <div class="top">
-      <div class="left">
-        <span>{{parent.user.nickname}}</span> &nbsp;&nbsp;&nbsp;
-        <span>2分钟前</span>
-      </div>
-      <span>回复</span>
-    </div>
-    <div class="bottom">{{parent.content}}</div>
+     //组件递归
+     <commentItem v-if="parent.parent" :parent="parent.parent"></commentItem>
+        <div class="top">
+            <div class="left">
+                <span>{{parent.user.nickname}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                <span>3分钟前</span>
+            </div>
+            <span>回复</span>
+        </div>
+             <div class="buttom">{{parent.content}}</div>
   </div>
 </template>
 
 <script>
 export default {
-        // 组件递归只能用name的方式来实现
-        name : "commentItem",
-        props: ["parent"]
-};
+    //  组件递归只能用name的方式来实现
+    name : 'commentItem',
+    props :["parent"]
+}
 </script>
 
 <style lang='less' scoped>
